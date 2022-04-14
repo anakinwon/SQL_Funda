@@ -1,3 +1,179 @@
+-- nw.categories definition
+
+-- Drop table
+
+-- DROP TABLE nw.categories;
+
+CREATE TABLE nw.categories (
+	category_id int2 NOT NULL,
+	category_name varchar(15) NOT NULL,
+	description text NULL,
+	picture bytea NULL,
+	CONSTRAINT pk_categories PRIMARY KEY (category_id)
+);
+
+
+-- nw.customers definition
+
+-- Drop table
+
+-- DROP TABLE nw.customers;
+
+CREATE TABLE nw.customers (
+	customer_id bpchar NOT NULL,
+	company_name varchar(40) NOT NULL,
+	contact_name varchar(30) NULL,
+	contact_title varchar(30) NULL,
+	address varchar(60) NULL,
+	city varchar(15) NULL,
+	region varchar(15) NULL,
+	postal_code varchar(10) NULL,
+	country varchar(15) NULL,
+	phone varchar(24) NULL,
+	fax varchar(24) NULL,
+	CONSTRAINT pk_customers PRIMARY KEY (customer_id)
+);
+
+
+-- nw.shippers definition
+
+-- Drop table
+
+-- DROP TABLE nw.shippers;
+
+CREATE TABLE nw.shippers (
+	shipper_id int2 NOT NULL,
+	company_name varchar(40) NOT NULL,
+	phone varchar(24) NULL,
+	CONSTRAINT pk_shippers PRIMARY KEY (shipper_id)
+);
+
+
+-- nw.suppliers definition
+
+-- Drop table
+
+-- DROP TABLE nw.suppliers;
+
+CREATE TABLE nw.suppliers (
+	supplier_id int2 NOT NULL,
+	company_name varchar(40) NOT NULL,
+	contact_name varchar(30) NULL,
+	contact_title varchar(30) NULL,
+	address varchar(60) NULL,
+	city varchar(15) NULL,
+	region varchar(15) NULL,
+	postal_code varchar(10) NULL,
+	country varchar(15) NULL,
+	phone varchar(24) NULL,
+	fax varchar(24) NULL,
+	homepage text NULL,
+	CONSTRAINT pk_suppliers PRIMARY KEY (supplier_id)
+);
+
+
+-- nw.employees definition
+
+-- Drop table
+
+-- DROP TABLE nw.employees;
+
+CREATE TABLE nw.employees (
+	employee_id int2 NOT NULL,
+	last_name varchar(20) NOT NULL,
+	first_name varchar(10) NOT NULL,
+	title varchar(30) NULL,
+	title_of_courtesy varchar(25) NULL,
+	birth_date date NULL,
+	hire_date date NULL,
+	address varchar(60) NULL,
+	city varchar(15) NULL,
+	region varchar(15) NULL,
+	postal_code varchar(10) NULL,
+	country varchar(15) NULL,
+	home_phone varchar(24) NULL,
+	"extension" varchar(4) NULL,
+	photo bytea NULL,
+	notes text NULL,
+	reports_to int2 NULL,
+	photo_path varchar(255) NULL,
+	CONSTRAINT pk_employees PRIMARY KEY (employee_id),
+	CONSTRAINT fk_employees_employees FOREIGN KEY (reports_to) REFERENCES nw.employees(employee_id)
+);
+
+
+-- nw.orders definition
+
+-- Drop table
+
+-- DROP TABLE nw.orders;
+
+CREATE TABLE nw.orders (
+	order_id int2 NOT NULL,
+	customer_id bpchar NULL,
+	employee_id int2 NULL,
+	order_date date NULL,
+	required_date date NULL,
+	shipped_date date NULL,
+	ship_via int2 NULL,
+	freight float4 NULL,
+	ship_name varchar(40) NULL,
+	ship_address varchar(60) NULL,
+	ship_city varchar(15) NULL,
+	ship_region varchar(15) NULL,
+	ship_postal_code varchar(10) NULL,
+	ship_country varchar(15) NULL,
+	CONSTRAINT pk_orders PRIMARY KEY (order_id),
+	CONSTRAINT fk_orders_customers FOREIGN KEY (customer_id) REFERENCES nw.customers(customer_id),
+	CONSTRAINT fk_orders_employees FOREIGN KEY (employee_id) REFERENCES nw.employees(employee_id),
+	CONSTRAINT fk_orders_shippers FOREIGN KEY (ship_via) REFERENCES nw.shippers(shipper_id)
+);
+
+
+-- nw.products definition
+
+-- Drop table
+
+-- DROP TABLE nw.products;
+
+CREATE TABLE nw.products (
+	product_id int2 NOT NULL,
+	product_name varchar(40) NOT NULL,
+	supplier_id int2 NULL,
+	category_id int2 NULL,
+	quantity_per_unit varchar(20) NULL,
+	unit_price float4 NULL,
+	units_in_stock int2 NULL,
+	units_on_order int2 NULL,
+	reorder_level int2 NULL,
+	discontinued int4 NOT NULL,
+	CONSTRAINT pk_products PRIMARY KEY (product_id),
+	CONSTRAINT fk_products_categories FOREIGN KEY (category_id) REFERENCES nw.categories(category_id),
+	CONSTRAINT fk_products_suppliers FOREIGN KEY (supplier_id) REFERENCES nw.suppliers(supplier_id)
+);
+
+
+-- nw.order_items definition
+
+-- Drop table
+
+-- DROP TABLE nw.order_items;
+
+CREATE TABLE nw.order_items (
+	order_id int2 NOT NULL,
+	line_prod_seq int8 NULL,
+	product_id int2 NOT NULL,
+	amount numeric NULL,
+	unit_price float4 NULL,
+	quantity int2 NULL,
+	discount float4 NULL,
+	CONSTRAINT order_items_pk PRIMARY KEY (order_id, product_id),
+	CONSTRAINT order_items_fk FOREIGN KEY (order_id) REFERENCES nw.orders(order_id),
+	CONSTRAINT order_items_fk_1 FOREIGN KEY (product_id) REFERENCES nw.products(product_id)
+);
+
+
+
 INSERT INTO nw.categories (category_id,category_name,description,picture) VALUES
 	 (1,'Beverages','Soft drinks, coffees, teas, beers, and ales',decode('','hex')),
 	 (2,'Condiments','Sweet and savory sauces, relishes, spreads, and seasonings',decode('','hex')),

@@ -1,3 +1,83 @@
+-- hr.dept definition
+
+-- Drop table
+
+-- DROP TABLE hr.dept;
+
+CREATE TABLE hr.dept (
+	deptno numeric NOT NULL,
+	dname varchar(14) NULL,
+	loc varchar(13) NULL,
+	CONSTRAINT dept_pk PRIMARY KEY (deptno)
+);
+
+
+-- hr.salgrade definition
+
+-- Drop table
+
+-- DROP TABLE hr.salgrade;
+
+CREATE TABLE hr.salgrade (
+	grade numeric NULL,
+	losal numeric NULL,
+	hisal numeric NULL
+);
+
+
+-- hr.emp definition
+
+-- Drop table
+
+-- DROP TABLE hr.emp;
+
+CREATE TABLE hr.emp (
+	empno numeric(4) NOT NULL,
+	ename varchar(10) NULL,
+	job varchar(9) NULL,
+	mgr numeric(4) NULL,
+	hiredate date NULL,
+	sal numeric(7, 2) NULL,
+	comm numeric(7, 2) NULL,
+	deptno numeric(2) NULL,
+	CONSTRAINT emp_pk PRIMARY KEY (empno),
+	CONSTRAINT emp_fk FOREIGN KEY (deptno) REFERENCES hr.dept(deptno)
+);
+
+
+-- hr.emp_dept_hist definition
+
+-- Drop table
+
+-- DROP TABLE hr.emp_dept_hist;
+
+CREATE TABLE hr.emp_dept_hist (
+	empno numeric NOT NULL,
+	deptno numeric NOT NULL,
+	fromdate date NOT NULL,
+	todate date NULL,
+	CONSTRAINT emp_dept_hist_pk PRIMARY KEY (empno, deptno, fromdate),
+	CONSTRAINT emp_dept_hist_fk FOREIGN KEY (deptno) REFERENCES hr.dept(deptno),
+	CONSTRAINT emp_dept_hist_fk_1 FOREIGN KEY (empno) REFERENCES hr.emp(empno)
+);
+
+
+-- hr.emp_salary_hist definition
+
+-- Drop table
+
+-- DROP TABLE hr.emp_salary_hist;
+
+CREATE TABLE hr.emp_salary_hist (
+	empno numeric NOT NULL,
+	fromdate date NOT NULL,
+	todate date NULL,
+	sal numeric NULL,
+	CONSTRAINT emp_salary_hist_pk PRIMARY KEY (empno, fromdate),
+	CONSTRAINT emp_salary_hist_fk FOREIGN KEY (empno) REFERENCES hr.emp(empno)
+);
+
+
 INSERT INTO hr.dept (deptno,dname,loc) VALUES
 	 (10,'ACCOUNTING','NEW YORK'),
 	 (20,'RESEARCH','DALLAS'),

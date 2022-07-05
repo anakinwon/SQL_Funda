@@ -97,8 +97,7 @@ CREATE TABLE nw.employees (
 	notes text NULL,
 	reports_to int2 NULL,
 	photo_path varchar(255) NULL,
-	CONSTRAINT pk_employees PRIMARY KEY (employee_id),
-	CONSTRAINT fk_employees_employees FOREIGN KEY (reports_to) REFERENCES nw.employees(employee_id)
+	CONSTRAINT pk_employees PRIMARY KEY (employee_id)
 );
 
 
@@ -123,10 +122,7 @@ CREATE TABLE nw.orders (
 	ship_region varchar(15) NULL,
 	ship_postal_code varchar(10) NULL,
 	ship_country varchar(15) NULL,
-	CONSTRAINT pk_orders PRIMARY KEY (order_id),
-	CONSTRAINT fk_orders_customers FOREIGN KEY (customer_id) REFERENCES nw.customers(customer_id),
-	CONSTRAINT fk_orders_employees FOREIGN KEY (employee_id) REFERENCES nw.employees(employee_id),
-	CONSTRAINT fk_orders_shippers FOREIGN KEY (ship_via) REFERENCES nw.shippers(shipper_id)
+	CONSTRAINT pk_orders PRIMARY KEY (order_id)
 );
 
 
@@ -147,9 +143,7 @@ CREATE TABLE nw.products (
 	units_on_order int2 NULL,
 	reorder_level int2 NULL,
 	discontinued int4 NOT NULL,
-	CONSTRAINT pk_products PRIMARY KEY (product_id),
-	CONSTRAINT fk_products_categories FOREIGN KEY (category_id) REFERENCES nw.categories(category_id),
-	CONSTRAINT fk_products_suppliers FOREIGN KEY (supplier_id) REFERENCES nw.suppliers(supplier_id)
+	CONSTRAINT pk_products PRIMARY KEY (product_id)
 );
 
 
@@ -167,9 +161,7 @@ CREATE TABLE nw.order_items (
 	unit_price float4 NULL,
 	quantity int2 NULL,
 	discount float4 NULL,
-	CONSTRAINT order_items_pk PRIMARY KEY (order_id, product_id),
-	CONSTRAINT order_items_fk FOREIGN KEY (order_id) REFERENCES nw.orders(order_id),
-	CONSTRAINT order_items_fk_1 FOREIGN KEY (product_id) REFERENCES nw.products(product_id)
+	CONSTRAINT order_items_pk PRIMARY KEY (order_id, product_id)
 );
 
 

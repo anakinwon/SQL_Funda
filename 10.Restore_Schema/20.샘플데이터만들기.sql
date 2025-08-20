@@ -148,8 +148,22 @@ COMMENT ON COLUMN TBL_DELVR.DELVR_CMP_NM IS '배송업체명';
 COMMENT ON COLUMN TBL_DELVR.DELVR_URL_NM IS '배송URL명';
 COMMENT ON TABLE TBL_DELVR IS '배송';
 
-
-
+/* 배송상태 코드 */
+WITH del_tmp AS
+(
+	SELECT delvr_st_no
+	  FROM TBL_DELVR
+	 GROUP BY delvr_st_no
+	 ORDER BY delvr_st_no
+)
+SELECT CASE WHEN delvr_st_no = 1 THEN delvr_st_no||'. 결제완료'
+            WHEN delvr_st_no = 2 THEN delvr_st_no||'. 상품준비중'
+            WHEN delvr_st_no = 3 THEN delvr_st_no||'. 배송지시'
+            WHEN delvr_st_no = 4 THEN delvr_st_no||'. 배송중'
+            ELSE delvr_st_no||'. 배송완료'
+        END
+FROM del_tmp;
+/* 배송상태 코드 */
 
 
 

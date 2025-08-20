@@ -404,6 +404,10 @@ SELECT deptno, max(dname) AS dname, avg(sal) AS avg_sal
 
 
 
+
+
+
+
 /************************************
    GROUP BY 실습 - 02(집계함수와 count(distinct))
 *************************************/
@@ -441,6 +445,9 @@ SELECT count(distinct job) FROM hr.emp_test;
 SELECT deptno, count(*) AS cnt, count(distinct job) FROM hr.emp_test GROUP BY deptno;
 
 
+
+
+
 /************************************
    GROUP BY 실습 - 03(GROUP BY절에 가공 컬럼 및 CASE WHEN 적용)
 *************************************/
@@ -465,6 +472,10 @@ SELECT CASE WHEN job = 'SALESMAN' THEN 'SALESMAN'
 FROM hr.emp
 GROUP BY CASE WHEN job = 'SALESMAN' THEN 'SALESMAN'
 		      ELSE 'OTHERS' END ;
+
+
+
+
 
 /************************************
    GROUP BY 실습 - 04(GROUP BY와 Aggregate 함수의 CASE WHEN 을 이용한 pivoting)
@@ -500,6 +511,7 @@ SELECT deptno, SUM(sal) AS sal_sum
 FROM emp
 GROUP BY deptno;
 
+
 -- GROUP BY Pivoting시 조건에 따른 건수 계산 유형(count CASE WHEN THEN 1 ELSE NULL END)
 SELECT deptno, count(*) AS cnt
 	, count(CASE WHEN job = 'SALESMAN' THEN 1 END) AS sales_cnt
@@ -509,6 +521,7 @@ SELECT deptno, count(*) AS cnt
 	, count(CASE WHEN job = 'PRESIDENT' THEN 1 END) AS president_cnt
 FROM emp
 GROUP BY deptno;
+
 
 -- GROUP BY Pivoting시 조건에 따른 건수 계산 시 잘못된 사례(count CASE WHEN THEN 1 ELSE NULL END)
 SELECT deptno, count(*) AS cnt
@@ -520,6 +533,7 @@ SELECT deptno, count(*) AS cnt
 FROM emp
 GROUP BY deptno;
 
+
 -- GROUP BY Pivoting시 조건에 따른 건수 계산 시 SUM()을 이용
 SELECT deptno, count(*) AS cnt
 	, SUM(CASE WHEN job = 'SALESMAN' THEN 1 ELSE 0 END) AS sales_cnt
@@ -529,6 +543,11 @@ SELECT deptno, count(*) AS cnt
 	, SUM(CASE WHEN job = 'PRESIDENT' THEN 1 ELSE 0 END) AS president_cnt
 FROM emp
 GROUP BY deptno;
+
+
+
+
+
 
 /************************************
    GROUP BY ROLLUP

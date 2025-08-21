@@ -2,6 +2,15 @@
                   서브쿼리 유형 기본
  *************************************************/
 
+/*
+    서브쿼리 3종 세트
+        1. 스칼라 서브쿼리 (Scalar SubQuery)
+        2. 인라인 뷰      (Inline-view SubQuery)
+        3. 중첩 (상관/비상관) 서브쿼리   (Nested-Loop SubQuery),
+           - 상관 : 메인의 키가 서브에 키와 조인될 경우
+           - 비상관 : 메인의 키가 서브에 키와 조인되지 않을 경우
+ */
+
 -- 평균 급여 이상의 급여를 받는 직원
 select * from hr.emp where sal >= (select avg(sal) from hr.emp);
 

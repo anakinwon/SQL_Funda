@@ -11,7 +11,7 @@ select order_id, line_prod_seq, product_id, amount
 from nw.order_items;
 
 -- order_items 테이블에서 order_id별 line_prod_seq순으로  누적 amount 합 - partition 또는 order by 절이 없을 경우 windows. 
-select order_id, line_prod_seq, product_id매 amount
+select order_id, line_prod_seq, product_id as amount
 	, sum(amount) over (partition by order_id) as total_sum_by_ord 
 	, sum(amount) over (partition by order_id order by line_prod_seq) as cum_sum_by_ord_01
 	, sum(amount) over (partition by order_id order by line_prod_seq rows between unbounded preceding and current row) as cum_sum_by_ord_02

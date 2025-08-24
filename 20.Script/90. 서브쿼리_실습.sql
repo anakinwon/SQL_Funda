@@ -350,6 +350,11 @@ where not exists (select ship_region from nw.orders x where x.ship_region = a.re
 --and a.region_name is not null
 
 
+
+
+
+
+
 /************************************************
                스칼라 서브쿼리 이해 
  *************************************************/
@@ -388,6 +393,11 @@ select a.*, b.avg_sal
 from hr.emp a
 	join (select deptno, avg(sal) as avg_sal from hr.emp x group by deptno) b 
 	on a.deptno = b.deptno;
+
+
+
+
+
 
 /************************************************
                스칼라 서브쿼리 실습 
@@ -436,12 +446,12 @@ from nw.customers a
 -- 고객정보와 고객이 처음 주문한 일자의 주문 일자와 그때의 배송 주소, 배송 일자 추출
 select a.customer_id, a.contact_name
 	, (select min(order_date) from nw.orders x where x.customer_id = a.customer_id) as first_order_date
-	, (select x.ship_address from nw.orders x where x.customer_id=a.customer_id and x.order_date = 
-	          (select min(order_date) from nw.orders y where y.customer_id = x.customer_id)
-	  ) as first_ship_address
-	, (select x.shipped_date from nw.orders x where x.customer_id=a.customer_id and x.order_date = 
-	          (select min(order_date) from nw.orders y where y.customer_id = x.customer_id)
-      ) as first_shipped_date
+	, (SELECT X.SHIP_ADDRESS FROM NW.ORDERS X WHERE X.CUSTOMER_ID=A.CUSTOMER_ID AND X.ORDER_DATE =
+	          (SELECT MIN(ORDER_DATE) FROM NW.ORDERS Y WHERE Y.CUSTOMER_ID = X.CUSTOMER_ID)
+	  ) AS FIRST_SHIP_ADDRESS
+	, (SELECT X.SHIPPED_DATE FROM NW.ORDERS X WHERE X.CUSTOMER_ID=A.CUSTOMER_ID AND X.ORDER_DATE =
+	          (SELECT MIN(ORDER_DATE) FROM NW.ORDERS Y WHERE Y.CUSTOMER_ID = X.CUSTOMER_ID)
+      ) AS FIRST_SHIPPED_DATE
 from nw.customers a
 order by a.customer_id;
 
